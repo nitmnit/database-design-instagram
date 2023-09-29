@@ -41,9 +41,9 @@ CREATE TABLE media_story_map(
 );
 
 CREATE TABLE slike (
-    id bigserial PRIMARY KEY,
     story_id bigint NOT NULL references story ON DELETE CASCADE,
-    user_id bigint NOT NULL references "user" ON DELETE CASCADE
+    user_id bigint NOT NULL references "user" ON DELETE CASCADE,
+    PRIMARY KEY (story_id, user_id)
 );
 
 CREATE TABLE comment (
@@ -62,25 +62,6 @@ CREATE TABLE reply (
     created timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE message_room (
-    id bigserial PRIMARY KEY,
-    name varchar(255),
-    is_private boolean DEFAULT false
-);
-
-CREATE TABLE message_room_user_map (
-    message_room_id bigint NOT NULL REFERENCES message_room ON DELETE CASCADE,
-    user_id bigint NOT NULL REFERENCES "user" ON DELETE CASCADE,
-    PRIMARY KEY (message_room_id, user_id)
-);
-
-CREATE TABLE message (
-    id bigserial PRIMARY KEY,
-    message text NOT NULL,
-    from_user_id bigint NOT NULL REFERENCES "user" ON DELETE CASCADE,
-    to_room_id bigint NOT NULL REFERENCES message_room ON DELETE CASCADE
-);
-
 CREATE TABLE follow (
     id bigserial PRIMARY KEY,
     user_id bigint NOT NULL REFERENCES "user" ON DELETE CASCADE,
@@ -94,3 +75,11 @@ CREATE TABLE bookmarks (
     created timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (user_id, story_id)
 );
+
+CREATE OR REPLACE FUNCTION random_between(low BIGINT, high BIGINT)
+RETURNS BIGINT AS
+$$
+BEGIN
+    return FLOOR(random() * (high - low + 1) + low)::BIGINT;
+END;
+$$ LANGUAGE plpgsql;
