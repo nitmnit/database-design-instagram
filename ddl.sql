@@ -12,7 +12,7 @@ CREATE TABLE "user" (
 );
 
 CREATE TABLE user_profile (
-    id bigserial PRIMARY KEY,
+    user_id BIGINT REFERENCES "user" NOT NULL PRIMARY KEY,
     profile_picture_url varchar(255),
     bio text,
     gender varchar(16),

@@ -28,8 +28,9 @@ BEGIN
 
         --- User profile
         INSERT INTO
-            "user_profile" (profile_picture_url, bio, gender)
+            "user_profile" (user_id, profile_picture_url, bio, gender)
         SELECT
+            user_id,
             'https://wallpapers.com/images/high/david-goggins-inspiring-artwork-r4vlpgz0shtazu6q.webp',
             md5((user_id) :: text),
             ('{"male", "female", "other"}' :: VARCHAR []) [((random() * 10)::INT % 3)::INT + 1];
@@ -310,4 +311,22 @@ BEGIN
         RAISE NOTICE 'progress: %', user_id * 100/ num_users;
     END LOOP;
 
+END $$;
+
+
+--- User Profile Fix after adding user_id
+DO $$
+    DECLARE num_users BIGINT DEFAULT 10000; -- Set number of users to create here
+BEGIN
+    FOR user_id in 1..num_users loop 
+        --- User profile
+        INSERT INTO
+            "user_profile" (user_id, profile_picture_url, bio, gender)
+        SELECT
+            user_id,
+            'https://wallpapers.com/images/high/david-goggins-inspiring-artwork-r4vlpgz0shtazu6q.webp',
+            md5((user_id) :: text),
+            ('{"male", "female", "other"}' :: VARCHAR []) [((random() * 10)::INT % 3)::INT + 1];
+    END LOOP;
+    COMMIT;
 END $$;
