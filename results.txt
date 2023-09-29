@@ -1,0 +1,51 @@
+# Attemp 1
+transaction type: multiple scripts
+scaling factor: 1
+query mode: simple
+number of clients: 10
+number of threads: 2
+maximum number of tries: 1
+duration: 100 s
+number of transactions actually processed: 86
+number of failed transactions: 0 (0.000%)
+latency average = 14063.060 ms
+initial connection time = 27.303 ms
+tps = 0.711083 (without initial connection time)
+SQL script 1: <builtin: select only>
+ - weight: 1 (targets 50.0% of total)
+ - 42 transactions (48.8% of total, tps = 0.347273)
+ - number of failed transactions: 0 (0.000%)
+ - latency average = 8.549 ms
+ - latency stddev = 12.256 ms
+SQL script 2: benchmark.sql
+ - weight: 1 (targets 50.0% of total)
+ - 44 transactions (51.2% of total, tps = 0.363810)
+ - number of failed transactions: 0 (0.000%)
+ - latency average = 26942.609 ms
+ - latency stddev = 11649.806 ms
+
+transaction type: multiple scripts
+scaling factor: 1
+query mode: simple
+number of clients: 10
+number of threads: 2
+maximum number of tries: 1
+duration: 100 s
+number of transactions actually processed: 85
+number of failed transactions: 0 (0.000%)
+latency average = 13090.887 ms
+initial connection time = 25.960 ms
+tps = 0.763890 (without initial connection time)
+SQL script 1: <builtin: select only>
+ - weight: 1 (targets 50.0% of total)
+ - 45 transactions (52.9% of total, tps = 0.404412)
+ - number of failed transactions: 0 (0.000%)
+ - latency average = 9.751 ms
+ - latency stddev = 16.904 ms
+SQL script 2: benchmark.sql
+ - weight: 1 (targets 50.0% of total)
+ - 40 transactions (47.1% of total, tps = 0.359478)
+ - number of failed transactions: 0 (0.000%)
+ - latency average = 26776.213 ms
+ - latency stddev = 10009.270 ms
+ 
