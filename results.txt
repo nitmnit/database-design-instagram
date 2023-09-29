@@ -1,4 +1,6 @@
 # Attemp 1
+# 1 CPU, 500MB
+# pgbench -c 10 -T 100 -j 2 -S -n -U postgres -d instagram -f benchmark.sql
 transaction type: multiple scripts
 scaling factor: 1
 query mode: simple
@@ -6,46 +8,46 @@ number of clients: 10
 number of threads: 2
 maximum number of tries: 1
 duration: 100 s
-number of transactions actually processed: 86
+number of transactions actually processed: 46
 number of failed transactions: 0 (0.000%)
-latency average = 14063.060 ms
-initial connection time = 27.303 ms
-tps = 0.711083 (without initial connection time)
+latency average = 29683.943 ms
+initial connection time = 21.481 ms
+tps = 0.336882 (without initial connection time)
 SQL script 1: <builtin: select only>
  - weight: 1 (targets 50.0% of total)
- - 42 transactions (48.8% of total, tps = 0.347273)
+ - 23 transactions (50.0% of total, tps = 0.168441)
  - number of failed transactions: 0 (0.000%)
- - latency average = 8.549 ms
- - latency stddev = 12.256 ms
+ - latency average = 15.475 ms
+ - latency stddev = 21.791 ms
 SQL script 2: benchmark.sql
  - weight: 1 (targets 50.0% of total)
- - 44 transactions (51.2% of total, tps = 0.363810)
+ - 23 transactions (50.0% of total, tps = 0.168441)
  - number of failed transactions: 0 (0.000%)
- - latency average = 26942.609 ms
- - latency stddev = 11649.806 ms
+ - latency average = 54192.247 ms
+ - latency stddev = 15944.444 ms
 
+# Attemp 2 After Optimization
 transaction type: multiple scripts
 scaling factor: 1
 query mode: simple
 number of clients: 10
 number of threads: 2
 maximum number of tries: 1
-duration: 100 s
-number of transactions actually processed: 85
+duration: 30 s
+number of transactions actually processed: 2525
 number of failed transactions: 0 (0.000%)
-latency average = 13090.887 ms
-initial connection time = 25.960 ms
-tps = 0.763890 (without initial connection time)
+latency average = 119.371 ms
+initial connection time = 48.542 ms
+tps = 83.772470 (without initial connection time)
 SQL script 1: <builtin: select only>
  - weight: 1 (targets 50.0% of total)
- - 45 transactions (52.9% of total, tps = 0.404412)
+ - 1264 transactions (50.1% of total, tps = 41.936001)
  - number of failed transactions: 0 (0.000%)
- - latency average = 9.751 ms
- - latency stddev = 16.904 ms
+ - latency average = 8.204 ms
+ - latency stddev = 11.540 ms
 SQL script 2: benchmark.sql
  - weight: 1 (targets 50.0% of total)
- - 40 transactions (47.1% of total, tps = 0.359478)
+ - 1261 transactions (49.9% of total, tps = 41.836469)
  - number of failed transactions: 0 (0.000%)
- - latency average = 26776.213 ms
- - latency stddev = 10009.270 ms
- 
+ - latency average = 226.986 ms
+ - latency stddev = 121.705 ms

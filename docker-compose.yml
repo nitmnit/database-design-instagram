@@ -6,6 +6,7 @@ services:
     volumes:
       - ./postgres-data/:/var/lib/postgresql/data/
       - ./custom_postgresql.conf:/etc/postgresql/postgresql.conf
+      - ./benchmark.sql:/benchmark.sql
     ports:
       - 5433:5432
     deploy:

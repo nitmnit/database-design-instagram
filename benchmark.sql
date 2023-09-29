@@ -13,16 +13,15 @@ FROM
 WHERE
     user_id = 6;
 
---- Fetch user ids of all users who are being followed by given user id
+-- --- Fetch user ids of all users who are being followed by given user id
 SELECT
-    u.id
+    f.follows_user_id
 FROM
-    "user" u
-    INNER JOIN follow f ON u.id = f.follows_user_id
+    follow f
 WHERE
     f.user_id = 6;
 
--- Last n Stories by User Y
+-- -- Last n Stories by User Y
 SELECT
     id
 FROM
@@ -32,7 +31,7 @@ WHERE
 LIMIT
     100;
 
---- Fetch all liked posts by user
+-- --- Fetch all liked posts by user
 SELECT
     story_id
 FROM
@@ -40,7 +39,7 @@ FROM
 where
     s.user_id = 6;
 
---- Fetch all saved posts by a user
+-- --- Fetch all saved posts by a user
 SELECT
     story_id
 FROM
@@ -48,7 +47,7 @@ FROM
 where
     b.user_id = 6;
 
---- Total likes for a given story
+-- --- Total likes for a given story
 SELECT
     COUNT(*)
 FROM
@@ -56,7 +55,7 @@ FROM
 WHERE
     s.story_id = 1002;
 
---- Number of comments for a given story
+-- --- Number of comments for a given story
 SELECT
     COUNT(*)
 FROM
@@ -64,7 +63,7 @@ FROM
 WHERE
     s.story_id = 1002;
 
---- All reels by user id
+-- --- All reels by user id
 SELECT
     id
 FROM
@@ -74,16 +73,15 @@ WHERE
     AND user_id = 78;
 
 --- Insert when user Likes a story
-INSERT INTO
-    slike (story_id, user_id)
-VALUES
-    (1002, 6);
-
-INSERT INTO
-    "story" (user_id, is_reel, caption)
-VALUES
-    (
-        6,
-        true,
-        'My first reel'
-    );
+-- INSERT INTO
+--     slike (story_id, user_id)
+-- VALUES
+--     (1002, 6);
+-- INSERT INTO
+--     "story" (user_id, is_reel, caption)
+-- VALUES
+--     (
+--         6,
+--         true,
+--         'My first reel'
+--     );

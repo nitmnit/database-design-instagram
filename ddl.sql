@@ -31,6 +31,7 @@ CREATE TABLE story (
     is_reel boolean DEFAULT false,
     created timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP 
 );
+CREATE INDEX CONCURRENTLY idx_story_user_id ON story(user_id);
 
 CREATE TABLE media_story_map(
     id bigserial PRIMARY KEY,
@@ -45,6 +46,7 @@ CREATE TABLE slike (
     user_id bigint NOT NULL references "user" ON DELETE CASCADE,
     PRIMARY KEY (story_id, user_id)
 );
+CREATE INDEX CONCURRENTLY idx_slike_user_id ON slike(user_id);
 
 CREATE TABLE comment (
     id bigserial PRIMARY KEY,
@@ -68,6 +70,8 @@ CREATE TABLE follow (
     follows_user_id bigint NOT NULL REFERENCES "user" ON DELETE CASCADE,
     created timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE INDEX CONCURRENTLY idx_follow_user_id ON follow(user_id);
 
 CREATE TABLE bookmarks (
     user_id bigint NOT NULL REFERENCES "user" ON DELETE CASCADE,
