@@ -251,10 +251,9 @@ BEGIN
     OPEN user_cursor;
     OPEN follower_cursor;
     LOOP
+        MOVE ABSOLUTE 1 FROM follower_cursor;
         FETCH user_cursor INTO user_id;
         EXIT WHEN NOT FOUND;
-
-        MOVE ABSOLUTE 1 FROM follower_cursor;
         LOOP
             FETCH follower_cursor INTO follower_id;
             EXIT WHEN NOT FOUND;
@@ -267,10 +266,48 @@ BEGIN
         user_progress = user_progress+ 1;
         IF next_user_goal = user_progress THEN
             next_user_goal = next_user_goal + num_users * .01;
-            follow_percentage = GREATEST(follow_percentage - .01, 1000);
+            follow_percentage = GREATEST(follow_percentage - .01, .001);
            	progress_percent = user_progress * 100/ num_users;
            raise notice 'progress percentage: %', progress_percent;
         END IF;
+    END LOOP;
+
+END $$;
+
+
+
+-- Bookmarks
+DO $$
+DECLARE
+    num_users BIGINT;
+    user_id BIGINT;
+    story_id BIGINT;
+    num_stories BIGINT;
+    min_bookmarks INT DEFAULT 100;
+    max_bookmarks INT DEFAULT 10000;
+    user_cursor CURSOR FOR SELECT id FROM "user" ORDER BY id;
+    cnt INT;
+BEGIN
+    num_users = (SELECT COUNT(*) FROM "user");
+    num_stories = (SELECT COUNT(*) FROM "story");
+    OPEN user_cursor;
+    LOOP
+        FETCH user_cursor INTO user_id;
+        EXIT WHEN NOT FOUND;
+
+        FOR cnt IN 1..random_between(min_bookmarks, max_bookmarks)
+        LOOP
+            BEGIN
+                story_id = random_between(1, num_stories);
+                INSERT INTO bookmarks (user_id, story_id)
+                SELECT user_id, story_id;
+            EXCEPTION
+                WHEN unique_violation THEN
+                    RAISE NOTICE 'unique violation';
+                    CONTINUE;
+            END;
+        END LOOP;
+        RAISE NOTICE 'progress: %', user_id * 100/ num_users;
     END LOOP;
 
 END $$;
